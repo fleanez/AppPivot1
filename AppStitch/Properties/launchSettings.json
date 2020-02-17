@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AppStitch": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\01.pivotal\\intermediate\\Test12\\CFdata\\CFdata_2020_50%\\CFdata\\CPF D:\\01.pivotal\\intermediate\\Test12\\CFdata\\CFdata_20200401_50%\\CFdata\\CPF \".csv\""
+    }
+  }
+}
