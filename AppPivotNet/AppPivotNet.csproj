@@ -67,11 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="macros\PivotOut.xlsm" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="macros\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "C:\Program Files (x86)\Energy Exemplar\PLEXOS 8.0\master.xml" "$(TargetDir)\master.xml"
