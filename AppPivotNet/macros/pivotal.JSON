@@ -1,0 +1,120 @@
+{
+  "Horizon": [
+        "202110"
+   ],
+   "Reserve": [
+		{
+        "Name": "CPF",
+		"Scenarios": ["CPFUp_ON", "BESSCPF_ON"]
+		},
+		{
+        "Name": "CSF_RS",
+		"Scenarios": ["CSFUp_ON"]
+		},
+		{
+        "Name": "CSF_LW",
+		"Scenarios": ["CSFDown_ON"]
+		},
+		{
+        "Name": "CTF_RS",
+		"Scenarios": ["CTFUp_ON", "CTFOffline_ON"]
+		},
+		{
+        "Name": "CTF_LW",
+		"Scenarios": ["CTFDown_ON"]
+		}
+   ],
+   "Company": [
+        "ENEL_GENERACION",
+        "COLBUN",
+		"AES_GENER",
+        "ENGIE",
+        "TAMAKAYA_ENERGIA",
+        "GENERADORA_METROPOLITANA",
+		"TINGUIRIRICA_ENERGIA",
+        "AELA_GENERACION",
+        "PACIFIC_HYDRO",
+        "SAN_JUAN"
+    ],
+    "Scenario": [
+          "AngosturaOpConstraint",
+          "AntisimmetryERNC",
+		  "AntucoOpConstraint",
+		  "BidActivation",
+		  "ElToroIrrigationAgreement",
+		  "ForbiddenZonesActivation",
+		  "InternalRestrictions",
+		  "LinearFuelMotors",
+		  "LinearGTs",
+		  "MachicuraOpConstraint",
+		  "MinTimesActivation",
+		  "PangueIrrigationAgreement",
+          "PangueOpConstraint",
+          "PehuencheIrrigation",
+		  "RalcoVolRamp",
+          "StabilizationTimeActivation",
+          "StartShutdownCost",
+          "TimeSliceMode"
+    ],
+    "Model": {
+        "Name": "BASE",
+        "Report": "Coordinador_output",
+        "MT": "Coordinador_base",
+        "Transmission": "Coordinador_base",
+        "Production": "Coordinador_base_lineal",
+        "Performance": "Xpress-MP",
+        "Diagnostic": "Coordinador_base"
+    },
+	"Report": [
+		{
+			"parent_class": "System",
+			"child_class": "Generator",
+			"collection": "Generators",
+			"property": "Total Generation Cost"
+		},
+		{
+			"parent_class": "System",
+			"child_class": "Generator",
+			"collection": "Generators",
+			"property": "Net Reserves Revenue"
+		},
+		{
+			"parent_class": "System",
+			"child_class": "Reserve",
+			"collection": "Reserves",
+			"property": "Provision"
+		},
+		{
+			"parent_class": "Reserve",
+			"child_class": "Generator",
+			"collection": "Generators",
+			"property": "Revenue"
+		},
+		{
+			"parent_class": "System",
+			"child_class": "Storage",
+			"collection": "Storages",
+			"property": "Marginal Cost"
+		},
+		{
+			"parent_class": "System",
+			"child_class": "Storage",
+			"collection": "Storages",
+			"property": "End Volume"
+		}
+	],
+	"Diagnostic": {
+		"Name": "PIVOT",
+        "LPFiles": 0,
+        "ObjectiveFunction": 0,
+        "LPProgress": -1,
+        "MIPProgress": -1,
+		"Times": -1,
+        "StepSummary": -1,
+		"PerformanceSummary": -1,
+		"TaskSize": -1,
+		"DatabaseLoad": -1,
+		"DataFileRead": -1,
+		"ComputerInformation": -1
+	}
+}
