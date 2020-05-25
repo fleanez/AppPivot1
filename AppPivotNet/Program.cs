@@ -32,6 +32,7 @@ namespace AppPivotNet
         private const String CONFIG_FILE = "pivotal.json"; //Hard-wired name of config file
         private const String ASSEMBLY_FILE = "OpenIndices.dll"; //Hard-wired name of assembly for computing the static indices
         private const String ASSEMBLY_NAMESPACE = "OpenIndices";
+        private const double MAX_RESPONSE_ZERO = 0.001; //This is another workaround for PLEXOS 8-1 because it seems it's not fully deleting provision variable when max response is zero
 
         #region Input Calculations
 
@@ -362,7 +363,7 @@ namespace AppPivotNet
                     {
                         int mem_id = db.GetMembershipID(EEUTILITY.Enums.CollectionEnum.ReserveGenerators, reserve.Name, g.Name);
                         int prop_id = db.PropertyName2EnumId("Reserve", "Generator", "Generators", strProperty);
-                        int ret = db.AddProperty(mem_id, prop_id, 1, 0.0, null, null, null, null, null, strScenario, null, EEUTILITY.Enums.PeriodEnum.Interval);
+                        int ret = db.AddProperty(mem_id, prop_id, 1, MAX_RESPONSE_ZERO, null, null, null, null, null, strScenario, null, EEUTILITY.Enums.PeriodEnum.Interval);
                         //Console.WriteLine($"{company.Name}.{g.Name}");
                     }
                 }
@@ -569,7 +570,10 @@ namespace AppPivotNet
                 {
                     ////String strReserveOnScenario = r.Name + "_ON";
                     //db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelName, strReserveOnScenario);
-                    db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelName, r.Scenario);
+                    foreach (String s in r.Scenarios)
+                    {
+                        db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelName, s);
+                    }
                 }
 
                 //Put the attribute Load Custom Assemblies
@@ -611,7 +615,10 @@ namespace AppPivotNet
                         if (r.Name != reserve.Name)
                         {
                             //String strReserveOnScenario = r.Name + "_ON";
-                            db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelNew0, r.Scenario);
+                            foreach (String s in r.Scenarios)
+                            {
+                                db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelNew0, s);
+                            }
                         }
                     }
 
@@ -664,7 +671,10 @@ namespace AppPivotNet
                         {
                             //String strReserveOnScenario = r.Name + "_ON";
                             //db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelPivot, strReserveOnScenario);
-                            db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelPivot, r.Scenario);
+                            foreach (String s in r.Scenarios)
+                            {
+                                db.AddMembership(EEUTILITY.Enums.CollectionEnum.ModelScenarios, strModelPivot, s);
+                            }
                         }
 
                         //int nAttribute = db.PropertyName2EnumId("System", "Model", "Models", "Enabled"); //Not working! It's an attribute!
@@ -891,7 +901,19 @@ namespace AppPivotNet
             {
                 String strReserveName = text.Reserve[i].Name;
                 Reserve r = Elements.AddReserve(strReserveName);
-                r.Scenario = text.Reserve[i].Scenario;
+                if (text.Reserve[i].Scenario != null)
+                {
+                    string s = text.Reserve[i].Scenario;
+                    r.Scenarios.Add(s);
+                }
+                if (text.Reserve[i].Scenarios != null)
+                {
+                    for (int k = 0; k < text.Reserve[i].Scenarios.Count; k++)
+                    {
+                        string s = text.Reserve[i].Scenarios[k];
+                        r.Scenarios.Add(s);
+                    }
+                }
             }
 
             //Workaround to reports:
@@ -917,7 +939,6 @@ namespace AppPivotNet
                 Production = text.Model.Production,
                 Stochastic = text.Model.Stochastic,
                 Performance = text.Model.Performance,
-                //Diagnostic = text.Model.Diagnostic
             };
             //Base Scenarios:
             foreach (String s in lconfig_base_scenarios)

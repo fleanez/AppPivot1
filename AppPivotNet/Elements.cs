@@ -299,6 +299,11 @@ namespace AppPivotNet
         /// List of all generators with memberships to this reserve
         /// </summary>
         public List<Generator> Generators = new List<Generator>();
+        /// <summary>
+        /// List of all scenarios that should "activate/deactivate" this reserve object
+        /// </summary>
+        public List<String> Scenarios = new List<String>();
+
         private String _name;
         private double _type = -1;
         public String Name
@@ -311,7 +316,7 @@ namespace AppPivotNet
             get => _type;
             set => _type = value;
         }
-        public String Scenario { get; set; }
+        //public String Scenario { get; set; }
     }
 
     class Model
